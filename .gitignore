@@ -1,0 +1,7 @@
+*.out
+*.txt
+*.pyc
+**/.vscode
+**/.idea
+**/.vim
+
