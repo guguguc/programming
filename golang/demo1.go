@@ -23,7 +23,7 @@ func fibonacci() func() int {
     }
 }
 
-func main() {
+func demo() {
     fmt.Println("1 + 2 =", add(1, 2))
     fmt.Println(echo("hello", "world"))
     fmt.Println(split("/usr/share/bison"))

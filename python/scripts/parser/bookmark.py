@@ -6,6 +6,7 @@ RED = '\033[31;1;1m'
 GREEN = '\033[32;1;1m'
 RESET = '\033[0m'
 
+
 class BookMarkParser(HTMLParser):
     def __init__(self):
         """parse chromium exported bookmark
@@ -52,8 +53,7 @@ class BookMarkParser(HTMLParser):
         if not data:
             return
         if self._last == 'bk_name':
-            self.info[-1] = dict(type=data, url=[], title=[],
-                                 num=0)
+            self.info[-1] = dict(type=data, url=[], title=[], num=0)
             self.cat_map[data] = len(self.info) - 1
         elif self._last == 'url':
             pos = self._stack[-1][0]
@@ -69,7 +69,7 @@ class BookMarkParser(HTMLParser):
 
     def post_process(self):
         for item in self.info:
-            assert(len(item['url']) == item['num'])
+            assert (len(item['url']) == item['num'])
 
     def get(self, key):
         idx = self.cat_map.get(key, -1)
@@ -80,18 +80,25 @@ class BookMarkParser(HTMLParser):
 
     def show(self):
         for idx, item in enumerate(self.info):
-            print(idx, item['type'],
-                  len(item['url']), item.get('parent'),
+            print(idx, item['type'], len(item['url']), item.get('parent'),
                   item['title'])
+
+
+def w2file(filename, urls: list):
+    content = "\n".join(urls)
+    with open(filename, "w+") as fp:
+        fp.write(content)
+
 
 def check_one(url):
     rep = requests.get(url, timeout=10)
     return rep.status_code
 
+
 def check_all(urls):
     from concurrent.futures import ThreadPoolExecutor, as_completed
     err_urls = []
-    with ThreadPoolExecutor(max_workers=12) as pool:
+    with ThreadPoolExecutor(max_workers=15) as pool:
         future_to_url = {pool.submit(check_one, url): url for url in urls}
         for future in as_completed(future_to_url):
             url = future_to_url[future]
@@ -107,7 +114,6 @@ def check_all(urls):
     return err_urls
 
 
-
 if __name__ == '__main__':
     import time
     import json
@@ -120,10 +126,11 @@ if __name__ == '__main__':
     for item in parser.info:
         urls.extend(item['url'])
     print('[*] start to test %s urls' % len(urls))
-    t1 = time.time()
-    err_urls = check_all(urls)
-    t2 = time.time()
-    print(f'[*] err url length {len(err_urls)}', \
-          f'check {len(urls)} urls cost {(t2-t1):.2f}s')
-    json.dump(err_urls, open('err_urls.json', 'w+'),
-              indent=4)
+    w2file("url.txt", urls)
+    # t1 = time.time()
+    # err_urls = check_all(urls)
+    # t2 = time.time()
+    # print(f'[*] err url length {len(err_urls)}', \
+    #       f'check {len(urls)} urls cost {(t2-t1):.2f}s')
+    # json.dump(err_urls, open('err_urls.json', 'w+'),
+    #           indent=4)

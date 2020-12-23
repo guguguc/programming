@@ -25,6 +25,7 @@ int main() {
   func(v1);
   func(v2);
 
+  add(1, 2);
   // const pointer and pointer to const
   int i = 1;
   const int *p1 = nullptr;
