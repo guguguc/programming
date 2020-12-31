@@ -3,8 +3,8 @@ Language:        Cpp
 
 BasedOnStyle: LLVM
 
-AccessModifierOffset: -4
-IndentWidth: 4
+AccessModifierOffset: -2
+IndentWidth: 2
 AlignConsecutiveAssignments: true
 BreakBeforeBraces: Stroustrup
 AllowShortIfStatementsOnASingleLine: false

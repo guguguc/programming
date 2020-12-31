@@ -33,6 +33,9 @@ int main()
     // read response
     boost::asio::streambuf response;
     boost::asio::read_until(socket, response, "\r\n");
+    std::cout << "size " << response.size() << "\n";
+    std::cout << &response << "\n";
+    getchar();
 
     // check response
     std::istream response_stream(&response);
@@ -54,7 +57,7 @@ int main()
     }
 
     // read response header, which are terminateb by a blank line
-    boost::asio::read_until(socket, response, "\r\n\r\n");
+    boost::asio::read_until(socket, response, "\r\n");
     std::string header;
     while (std::getline(response_stream, header) && header != "\r")
         std::cout << header << "\n";
