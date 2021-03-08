@@ -28,7 +28,7 @@ with open(filename, mode='rb') as fp:
     client.send(header)
     print(f'[*] succeed to send header: {header}')
     time.sleep(5)
-    
+
     start_time = time.time()
     for index, chunk in enumerate(raw):
         # payload = pack(f'<{len(chunk)}s', chunk)
@@ -44,7 +44,7 @@ with open(filename, mode='rb') as fp:
     send_time = send_end_time - start_time
     save_time = saved_end_time - start_time
     print(f'[*]send time: {send_time:.2}s, save time: {save_time:.2}s')
-    
+
 # if __name__ == '__main__':
 #     parser = argparse.ArgumentParser(description='upload file')
 #     parser.add_argument('ip', type=str)

@@ -1,8 +1,7 @@
 #include "caculator.hpp"
 #include <gtkmm-3.0/gtkmm.h>
 
-static const char *ALLOWED_KEY = "0123456789-+*/()=";
-const std::map<guint, char> KEYCODE_MAP = {
+static const std::map<guint, char> KEYCODE_MAP = {
     {GDK_KEY_0, '0'},{GDK_KEY_1, '1'}, {GDK_KEY_2, '2'}, {GDK_KEY_3, '3'},
     {GDK_KEY_4, '4'},{GDK_KEY_5, '5'}, {GDK_KEY_6, '6'}, {GDK_KEY_7, '7'},
     {GDK_KEY_8, '8'},{GDK_KEY_9, '9'},
@@ -14,8 +13,9 @@ const std::map<guint, char> KEYCODE_MAP = {
 
 class CaculatorGui : public Gtk::Window
 {
-    static constexpr size_t GRID_SIZE = 17;
-    static constexpr size_t ROW_SIZE  = 5;
+    constexpr static size_t GRID_SIZE = 17;
+    constexpr static size_t ROW_SIZE  = 5;
+    constexpr static const char *ALLOWED_KEY = "0123456789-+*/()=";
 
 public:
     CaculatorGui();
@@ -24,7 +24,7 @@ public:
 private:
     void on_button_clicked(const Glib::ustring &item);
     bool on_key_press_event(GdkEventKey *event) override;
-    void add_buttons();
+    void add_buttons_in_grid();
     void custom_view();
     void parse_css_load_err(const Glib::RefPtr<const Gtk::CssSection> &section,
                             const Glib::Error &err);

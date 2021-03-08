@@ -2,8 +2,8 @@
 @Author: grehex
 @Date: 2020-03-29 16:42:13
 @LastEditTime: 2020-03-30 15:33:26
-@Description: 
 '''
+
 import socket
 import time
 import struct
@@ -27,5 +27,3 @@ while True:
         time.sleep(1)
         print('send success!')
 client.close()
-
-    

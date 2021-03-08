@@ -1,26 +1,33 @@
 #include "gui.hpp"
 #include <iostream>
 
-CaculatorGui::CaculatorGui(): runner(), clear(false)
+CaculatorGui::CaculatorGui(): buffer(Gtk::TextBuffer::create()), runner(), clear(false)
 {
-    // View setting
-    view.set_hexpand();
-    view.set_vexpand();
-    view.set_editable(false);
-    buffer = Gtk::TextBuffer::create();
-    view.set_buffer(buffer);
     custom_view();
-    // Grid setting
     grid.attach(view, 0, 0, ROW_SIZE, 1);
-    add_buttons();
-    // Window setting
-    set_border_width(10);
+    add_buttons_in_grid();
     add(grid);
     add_events(Gdk::KEY_PRESS_MASK);
+    set_border_width(10);
     show_all_children();
 }
 
-void CaculatorGui::add_buttons()
+void CaculatorGui::custom_view()
+{
+    view.set_hexpand();
+    view.set_vexpand();
+    view.set_editable(false);
+    view.set_buffer(buffer);
+    std::string path = "../assets/style.css";
+    auto css = Gtk::CssProvider::create();
+    css->signal_parsing_error().connect(sigc::mem_fun(*this, &CaculatorGui::parse_css_load_err));
+    css->load_from_path(path);
+    auto screen = Gdk::Screen::get_default();
+    auto ctx = view.get_style_context();
+    ctx->add_provider_for_screen(screen, css, GTK_STYLE_PROVIDER_PRIORITY_USER);
+}
+
+void CaculatorGui::add_buttons_in_grid()
 {
     for (size_t i = ROW_SIZE; i < GRID_SIZE+ROW_SIZE; ++i)
     {
@@ -34,17 +41,6 @@ void CaculatorGui::add_buttons()
         bt->set_vexpand();
         grid.attach(*bt, col, row);
     }
-}
-
-void CaculatorGui::custom_view()
-{
-    std::string path = "../assets/style.css";
-    auto css = Gtk::CssProvider::create();
-    css->signal_parsing_error().connect(sigc::mem_fun(*this, &CaculatorGui::parse_css_load_err));
-    css->load_from_path(path);
-    auto screen = Gdk::Screen::get_default();
-    auto ctx = view.get_style_context();
-    ctx->add_provider_for_screen(screen, css, GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
 void CaculatorGui::on_button_clicked(const Glib::ustring &item)
@@ -65,9 +61,7 @@ void CaculatorGui::on_button_clicked(const Glib::ustring &item)
 
 bool CaculatorGui::on_key_press_event(GdkEventKey *event)
 {
-    // std::cerr << std::hex << event->keyval << "\n";
     char keyval = get_keyval_char(event->keyval);
-    // std::cerr << "key val: " << keyval << "\n";
     if (keyval != '\0')
     {
         on_button_clicked(Glib::ustring(std::string(1, keyval)));

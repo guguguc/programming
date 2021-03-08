@@ -76,7 +76,6 @@ class Matrix:
                 raise TypeError('column unmatched')
             for col_src, col_dst in enumerate(col_indices):
                 self.matrix[row_dst][col_dst] = vals.matrix[row_src][col_src]
-            
 
     def __add__(self, other):
         if not isinstance(other, Matrix):
@@ -88,7 +87,7 @@ class Matrix:
             for col in range(self.column):
                 mat.matrix[row][col] = self.matrix[row][col] + other.matrix[row][col]
         return mat
-    
+
     def __len__(self):
         return self.row
 
