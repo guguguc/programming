@@ -1,12 +1,16 @@
-#include "helper.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-#define HELLO (100)
 
 int main()
 {
-    int hello = 100;
-    SHOW(HELLO);
-    int a1 = 0x6fffffff;
-    printf("%d\n", a1);
+    int *a = NULL;
+    int **pa = &a;
+    *pa = malloc(sizeof(int));
+    **pa = 10;
+
+    printf("%d\n", *a);
+    free(a);
+
     return 0;
 }

@@ -131,12 +131,12 @@ void disp_strtab(const char *buff, size_t size)
     }
 }
 
-void disp_symtab(struct list_head *symtab)
+void disp_symtab(plist_t symtab)
 {
     assert(symtab);
     fprintf(stdout, "Section headrs:\n");
-    struct list_head *cur = NULL;
-    for (cur = symtab; cur; cur = cur->next) {
+    pnode_t cur;
+    FOR_EACH(symtab, cur) {
         Elf64_Sym *tmp = cur->item;
         fprintf(stdout, "name: %04u  ", tmp->st_name);
         fprintf(stdout, "info: %04d  ", tmp->st_info);
@@ -153,14 +153,16 @@ void disp_sechdr(int fd, const Elf64_Ehdr *elfhdr,
         struct list_head *section_list)
 {
     fprintf(stdout, "Section headrs:\n");
+
     // get string table
     Elf64_Shdr *strtab = NULL;
     const size_t buff_size = 4096;
     char strtab_buff[buff_size];
     off_t off;
     size_t size;
-    struct list_head *cur = section_list;
-    for (int i = 0; i < elfhdr->e_shstrndx; ++i) cur = cur->next;
+    pnode_t cur;
+    cur = list_get(section_list, elfhdr->e_shstrndx);
+    assert(cur != TAIL(section_list));
     strtab = (Elf64_Shdr*)cur->item;
     off = strtab->sh_offset;
     size = strtab->sh_size;
@@ -169,7 +171,7 @@ void disp_sechdr(int fd, const Elf64_Ehdr *elfhdr,
     read(fd, strtab_buff, size);
 
     // iter all list item
-    for (cur = section_list; cur; cur=cur->next) {
+    FOR_EACH(section_list, cur) {
         disp_section((Elf64_Shdr *)(cur->item), strtab_buff, 4096);
         fprintf(stdout, "\n");
     }
@@ -183,11 +185,14 @@ void disp_sechdr(int fd, const Elf64_Ehdr *elfhdr,
 void disp_prohdr(struct list_head *prohdr)
 {
     fprintf(stdout, "Program headrs:\n");
-    struct list_head *cur;
-    for (cur = prohdr; cur; cur=cur->next) {
+
+    pnode_t cur;
+    FOR_EACH(prohdr, cur) {
         Elf64_Phdr *tmp = cur->item;
-        fprintf(stdout, "type: %18s  ", get_prog_seg_type(tmp->p_type));
-        fprintf(stdout, "flags: %4s  ", get_prog_seg_flags(tmp->p_flags));
+        fprintf(stdout, "type: %18s  ",
+                get_prog_seg_type(tmp->p_type));
+        fprintf(stdout, "flags: %4s  ",
+                get_prog_seg_flags(tmp->p_flags));
         fprintf(stdout, "offset: %08lx  ", tmp->p_offset);
         fprintf(stdout, "vaddr: %08lx  ", tmp->p_vaddr);
         fprintf(stdout, "paddr: %08lx  ", tmp->p_paddr);
@@ -195,6 +200,7 @@ void disp_prohdr(struct list_head *prohdr)
         fprintf(stdout, "mem size: %08lx  ", tmp->p_memsz);
         fprintf(stdout, "\n");
     }
+
     fprintf(stdout, "\n");
 }
 
@@ -212,6 +218,7 @@ Elf64_Ehdr *read_elfhdr(int fd)
     elfhdr = (Elf64_Ehdr*) malloc(DEFAULT_ELF_HEADER_SIZE);
     size = read(fd, (char *)elfhdr, DEFAULT_ELF_HEADER_SIZE);
     assert(size == DEFAULT_ELF_HEADER_SIZE);
+    //restore
     size = lseek(fd, 0, SEEK_SET);
     assert(size != ((off_t) - 1));
 
@@ -225,7 +232,7 @@ struct list_head *read_sechdr(int fd, const Elf64_Ehdr *elfhdr)
     size_t total_size, size, nums;
     off_t start, off;
     char buff[4096] = {};
-    struct list_head *head, *cur;
+    struct list_head *list = NULL;
 
     size = elfhdr->e_shentsize;
     nums = elfhdr->e_shnum;
@@ -236,27 +243,13 @@ struct list_head *read_sechdr(int fd, const Elf64_Ehdr *elfhdr)
     lseek(fd, start, SEEK_SET);
     read(fd, buff, total_size);
 
-    head = malloc(sizeof(struct list_head));
-    memset(head, 0, sizeof(struct list_head));
-    cur = head;
-    off = 0;
-    for (int i = 0; i < nums; ++i) {
-        Elf64_Shdr *section = malloc(size);
-        memcpy(section, buff + off, size);
-        off += size;
-        add_to_list(cur, (void*)section);
-        cur = cur->next;
-    }
-    assert(off == total_size);
-    if (head->next)
-        head->next->prev = cur;
+    printf("[init buf start]: %p\n", buff);
+    printf("[init buf end]: %p\n", buff + total_size);
+    list_init_by_buff(&list, buff, total_size, size);
 
-    // free dummy head
-    cur = head;
-    head = head->next;
-    free(cur);
+    lseek(fd, 0, SEEK_SET);
 
-    return head;
+    return list;
 }
 
 struct list_head *read_prohdr(int fd, const Elf64_Ehdr *elfhdr)
@@ -264,7 +257,7 @@ struct list_head *read_prohdr(int fd, const Elf64_Ehdr *elfhdr)
     off_t off;
     size_t size, nums, total_size;
     char buff[0x1000] = {};
-    struct list_head *head, *cur;
+    struct list_head *list, *cur;
 
     off = elfhdr->e_phoff;
     size = elfhdr->e_phentsize;
@@ -275,26 +268,9 @@ struct list_head *read_prohdr(int fd, const Elf64_Ehdr *elfhdr)
     lseek(fd, off, SEEK_SET);
     read(fd, buff, total_size);
 
-    head = malloc(sizeof(struct list_head));
-    memset(head, 0, sizeof(struct list_head));
-    cur = head;
-    off = 0;
-    for (int i = 0; i < nums; ++i) {
-        Elf64_Phdr *prog = malloc(size);
-        memcpy(prog, buff + off, size);
-        off += size;
-        add_to_list(cur, (void*)prog);
-        cur = cur->next;
-    }
-    assert(off == total_size);
-    if (head->next)
-        head->next->prev = cur;
+    list_init_by_buff(&list, buff, total_size, size);
 
-    cur = head;
-    head = head->next;
-    free(cur);
-
-    return head;
+    return list;
 }
 
 struct list_head *read_symtab(int fd, struct list_head *sechdr)
@@ -303,17 +279,21 @@ struct list_head *read_symtab(int fd, struct list_head *sechdr)
     assert(fd > 0);
     assert(sechdr != NULL);
 
-    struct list_head *symtab, *cur;
+    struct list_head *list;
+    pnode_t cur;
     Elf64_Shdr *symtab_info;
     off_t off;
     size_t total_size, entry_size;
     uint32_t nums;
 
     // find symtab section
-    cur = sechdr;
-    while (cur && ((Elf64_Shdr*)(cur->item))->sh_type != SHT_SYMTAB)
-        cur = cur->next;
-    if (!cur) return NULL;
+    FOR_EACH(sechdr, cur) {
+        Elf64_Shdr *syment = cur->item;
+        if (syment->sh_type == SHT_SYMTAB)
+            break;
+    }
+    if (cur == TAIL(sechdr))
+        return NULL;
 
     // get symtab info
     symtab_info = cur->item;
@@ -330,36 +310,20 @@ struct list_head *read_symtab(int fd, struct list_head *sechdr)
     lseek(fd, off, SEEK_SET);
     read(fd, buff, total_size);
 
-    symtab = malloc(sizeof(struct list_head));
-    memset(symtab, 0, sizeof(struct list_head));
-    cur = symtab;
-    off = 0;
-    for (int i = 0; i < nums; ++i) {
-        Elf64_Sym *sym = malloc(entry_size);
-        memcpy(sym, buff + off, entry_size);
-        off += entry_size;
-        add_to_list(cur, (void*)sym);
-        cur = cur->next;
-    }
-    assert(off == total_size);
-    if (symtab->next)
-        symtab->next->prev = cur;
+    list_init_by_buff(&list, buff, total_size, entry_size);
 
-    cur = symtab;
-    symtab = symtab->next;
-    free(cur);
-
-    return symtab;
+    return list;
 }
 
 int main()
 {
     int fd;
     Elf64_Ehdr *elfhdr;
+
     struct list_head *sechdr;
     struct list_head *prohdr;
     struct list_head *symtab;
-    struct list_head *strtab;
+    // struct list_head *strtab;
 
     const char *filename = "a.out";
 
@@ -368,16 +332,23 @@ int main()
 
     elfhdr = read_elfhdr(fd);
     sechdr = read_sechdr(fd, elfhdr);
+    getchar();
     prohdr = read_prohdr(fd, elfhdr);
-    strtab = read_strtab(fd, elfhdr);
+    // strtab = read_strtab(fd, elfhdr);
     symtab = read_symtab(fd, sechdr);
+
 
     disp_elfhdr(elfhdr);
     disp_sechdr(fd, elfhdr, sechdr);
     disp_prohdr(prohdr);
     disp_symtab(symtab);
 
+    list_free(&sechdr);
+    list_free(&prohdr);
+    list_free(&symtab);
+
     free(elfhdr);
+
     close (fd);
 
     return 0;
