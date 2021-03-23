@@ -11,6 +11,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include <capstone/capstone.h>
+
 #define DEFAULT_ELF_HEADER_SIZE 256
 #define elfhdr_fieds_num 14
 #define TRUE 1
@@ -122,19 +124,22 @@ void disp_section(const Elf64_Shdr *sechdr,
     fprintf(stdout, "entry size: %04lx  ", sechdr->sh_entsize);
 }
 
-void disp_strtab(const char *buff, size_t size)
+void disp_strtab(plist_t list)
 {
-    printf("String table\n");
-    for (int st = 0; st < size; st++) {
-        printf("%s\n", buff+st);
-        st += strlen(buff+st);
+    fprintf(stdout, "String table:\n");
+    pnode_t cur;
+    FOR_EACH(list, cur) {
+        fprintf(stdout, "%s\n", (char *)cur->item);
     }
+    fprintf(stdout, "\n");
 }
 
 void disp_symtab(plist_t symtab)
 {
-    assert(symtab);
-    fprintf(stdout, "Section headrs:\n");
+    if (!symtab)
+        return;
+
+    fprintf(stdout, "Symbol table:\n");
     pnode_t cur;
     FOR_EACH(symtab, cur) {
         Elf64_Sym *tmp = cur->item;
@@ -206,7 +211,38 @@ void disp_prohdr(struct list_head *prohdr)
 
 void disp_seg_mapping()
 {
+    return;
+}
 
+Elf64_Shdr *find_section_by_type(plist_t sechdr, uint32_t type)
+{
+
+    Elf64_Shdr *ret = NULL;
+    pnode_t cur;
+    FOR_EACH(sechdr, cur) {
+        Elf64_Shdr *tmp = cur->item;
+        if (tmp->sh_type == type) {
+            ret = tmp;
+            break;
+        }
+    }
+    return ret;
+}
+
+Elf64_Shdr *find_section_by_name(plist_t sechdr,
+        plist_t strtab, const char *name)
+{
+    Elf64_Shdr *ret = NULL;
+    pnode_t cur;
+    FOR_EACH(sechdr, cur) {
+        Elf64_Shdr *tmp = cur->item;
+        pnode_t strent = list_get_by_off(strtab, tmp->sh_name);
+        if (strent && !strcmp(strent->item, name)) {
+            ret = tmp;
+            break;
+        }
+    }
+    return ret;
 }
 
 Elf64_Ehdr *read_elfhdr(int fd)
@@ -218,57 +254,57 @@ Elf64_Ehdr *read_elfhdr(int fd)
     elfhdr = (Elf64_Ehdr*) malloc(DEFAULT_ELF_HEADER_SIZE);
     size = read(fd, (char *)elfhdr, DEFAULT_ELF_HEADER_SIZE);
     assert(size == DEFAULT_ELF_HEADER_SIZE);
-    //restore
-    size = lseek(fd, 0, SEEK_SET);
-    assert(size != ((off_t) - 1));
 
     return elfhdr;
+}
+
+plist_t read_section(int fd, off_t offset, size_t size, size_t ent_size)
+{
+    plist_t section = NULL;
+    char *buff;
+
+    buff = malloc(size);
+
+    lseek(fd, offset, SEEK_SET);
+    read(fd, buff, size);
+
+    list_init_by_buff(&section, buff, size, ent_size);
+
+    free(buff);
+
+    return section;
 }
 
 struct list_head *read_sechdr(int fd, const Elf64_Ehdr *elfhdr)
 {
     assert(fd > 0);
 
+    plist_t list = NULL;
     size_t total_size, size, nums;
-    off_t start, off;
-    char buff[4096] = {};
-    struct list_head *list = NULL;
+    off_t off;
 
     size = elfhdr->e_shentsize;
     nums = elfhdr->e_shnum;
-    start = elfhdr->e_shoff;
+    off = elfhdr->e_shoff;
     total_size = nums * size;
-    assert(total_size < (4096));
 
-    lseek(fd, start, SEEK_SET);
-    read(fd, buff, total_size);
-
-    printf("[init buf start]: %p\n", buff);
-    printf("[init buf end]: %p\n", buff + total_size);
-    list_init_by_buff(&list, buff, total_size, size);
-
-    lseek(fd, 0, SEEK_SET);
+    list = read_section(fd, off, total_size, size);
 
     return list;
 }
 
 struct list_head *read_prohdr(int fd, const Elf64_Ehdr *elfhdr)
 {
+    plist_t list;
     off_t off;
     size_t size, nums, total_size;
-    char buff[0x1000] = {};
-    struct list_head *list, *cur;
 
     off = elfhdr->e_phoff;
     size = elfhdr->e_phentsize;
     nums = elfhdr->e_phnum;
     total_size = nums * size;
-    assert(total_size < 0x1000);
 
-    lseek(fd, off, SEEK_SET);
-    read(fd, buff, total_size);
-
-    list_init_by_buff(&list, buff, total_size, size);
+    list = read_section(fd, off, total_size, size);
 
     return list;
 }
@@ -277,53 +313,122 @@ struct list_head *read_symtab(int fd, struct list_head *sechdr)
 {
     fprintf(stdout, "Symbol table:\n");
     assert(fd > 0);
-    assert(sechdr != NULL);
+    assert(sechdr);
 
-    struct list_head *list;
+    plist_t list = NULL;
     pnode_t cur;
     Elf64_Shdr *symtab_info;
     off_t off;
     size_t total_size, entry_size;
     uint32_t nums;
 
-    // find symtab section
-    FOR_EACH(sechdr, cur) {
-        Elf64_Shdr *syment = cur->item;
-        if (syment->sh_type == SHT_SYMTAB)
-            break;
-    }
-    if (cur == TAIL(sechdr))
+    // find symtab header
+    symtab_info = find_section_by_type(sechdr, SHT_SYMTAB);
+    if (!symtab_info)
         return NULL;
 
-    // get symtab info
-    symtab_info = cur->item;
+    // get symtab section
     off = symtab_info->sh_offset;
     total_size = symtab_info->sh_size;
     entry_size = symtab_info->sh_entsize;
     assert(total_size > 0);
-    nums = total_size / entry_size;
-    fprintf(stdout, "offset: %lu\nsize: %lu\nnums:%u\n",
-            off, total_size, nums);
 
-    // allocate list
-    char buff[0x1000] = {};
-    lseek(fd, off, SEEK_SET);
-    read(fd, buff, total_size);
-
-    list_init_by_buff(&list, buff, total_size, entry_size);
+    list = read_section(fd, off, total_size, entry_size);
 
     return list;
+}
+
+plist_t read_strtab(int fd, Elf64_Ehdr *elfhdr, plist_t sechdr)
+{
+    plist_t list = NULL;
+    pnode_t cur;
+    Elf64_Shdr *strtab = NULL;
+    const size_t buff_size = 4096;
+    char strtab_buff[buff_size];
+    off_t off;
+    size_t size;
+
+    cur = list_get(sechdr, elfhdr->e_shstrndx);
+    assert(cur != TAIL(sechdr));
+    strtab = (Elf64_Shdr*)cur->item;
+    off = strtab->sh_offset;
+    size = strtab->sh_size;
+    printf("size is %lu\n", size);
+    getchar();
+    assert(size < buff_size);
+    lseek(fd, off, SEEK_SET);
+    read(fd, strtab_buff, size);
+
+    list_init(&list);
+    for (int st = 1; st < size; st++) {
+        size_t len = strlen(strtab_buff + st);
+        list_add_tail(list, strtab_buff + st, len+1);
+        st += len;
+    }
+
+    return list;
+}
+
+void disasm(const uint8_t *buff, size_t size)
+{
+    csh handle;
+    cs_insn *insn;
+    size_t cnt;
+    int ret;
+
+    ret = cs_open(CS_ARCH_X86, CS_MODE_64, &handle);
+    assert(ret == CS_ERR_OK);
+
+    cnt = cs_disasm(handle, buff, size, 0x1070, 0, &insn);
+    if (cnt <= 0)
+        goto clean_ex;
+
+    for (size_t i = 0; i < cnt; ++i) {
+        printf("0x%"PRIx64":\t%s\t\t%s\n",
+            insn[i].address, insn[i].mnemonic, insn[i].op_str);
+    }
+
+clean_normal:
+    cs_free(insn, cnt);
+    cs_close(&handle);
+    return;
+
+clean_ex:
+    printf("failed to disasm!\n");
+    cs_close(&handle);
+}
+
+void get_text(int fd, plist_t sechdr, plist_t strtab)
+{
+    Elf64_Shdr *ent;
+    uint8_t *code_buff;
+    off_t off;
+    size_t size;
+
+    printf(".text:\n");
+    ent = find_section_by_name(sechdr, strtab, ".text");
+    assert(ent);
+    printf("off: %lu\nsize: %lu\n", ent->sh_offset, ent->sh_size);
+
+    off = ent->sh_offset;
+    size = ent->sh_size;
+
+    code_buff = malloc(ent->sh_size);
+    memset(code_buff, 0, ent->sh_entsize);
+    lseek(fd, off, SEEK_SET);
+    read(fd, code_buff, size);
+
+    disasm(code_buff, size);
 }
 
 int main()
 {
     int fd;
     Elf64_Ehdr *elfhdr;
-
     struct list_head *sechdr;
     struct list_head *prohdr;
     struct list_head *symtab;
-    // struct list_head *strtab;
+    struct list_head *strtab;
 
     const char *filename = "a.out";
 
@@ -332,9 +437,8 @@ int main()
 
     elfhdr = read_elfhdr(fd);
     sechdr = read_sechdr(fd, elfhdr);
-    getchar();
     prohdr = read_prohdr(fd, elfhdr);
-    // strtab = read_strtab(fd, elfhdr);
+    strtab = read_strtab(fd, elfhdr, sechdr);
     symtab = read_symtab(fd, sechdr);
 
 
@@ -342,10 +446,19 @@ int main()
     disp_sechdr(fd, elfhdr, sechdr);
     disp_prohdr(prohdr);
     disp_symtab(symtab);
+    disp_strtab(strtab);
+
+    printf("section header nums: %lu\n", list_count(sechdr));
+    printf("program header nums: %lu\n", list_count(prohdr));
+    printf("symbol table nums: %lu\n", list_count(symtab));
+    printf("string table nums: %lu\n", list_count(strtab));
+
+    get_text(fd, sechdr, strtab);
 
     list_free(&sechdr);
     list_free(&prohdr);
     list_free(&symtab);
+    list_free(&strtab);
 
     free(elfhdr);
 
