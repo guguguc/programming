@@ -1,6 +1,5 @@
 #!/usr/bin/python
 from bcc import BPF
-from time import sleep
 
 program = """
 BPF_HASH(clones);
@@ -17,7 +16,7 @@ int hello(void *ctx) {
     }
     counter++;
     clones.update(&uid, &counter);
-    // bpf_trace_printk("id: %ld: hello, world", uid);
+    bpf_trace_printk("id: %ld: call clone", uid);
     return 0;
 }
 """
@@ -25,14 +24,14 @@ int hello(void *ctx) {
 b = BPF(text=program)
 clone = b.get_syscall_fnname(b"clone")
 b.attach_kprobe(event=clone, fn_name="hello")
-# b.trace_print()
+b.trace_print()
 
-while True:
-    sleep(2)
-    s = ""
-    if len(b["clones"].items()):
-        for k, v in b["clones"].items():
-            s += f"ID: {k.value}: {v.value} \t"
-            print(s)
-    else:
-        print("no entry yet")
+# while True:
+#     sleep(2)
+#     s = ""
+#     if len(b["clones"].items()):
+#         for k, v in b["clones"].items():
+#             s += f"ID: {k.value}: {v.value} \t"
+#             print(s)
+#     else:
+#         print("no entry yet")
