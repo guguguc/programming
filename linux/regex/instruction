@@ -1,0 +1,7 @@
+1. replace word to world
+2. replace all gray grby to grey
+3. replace all a prefixed with one or multiple b to abc
+4. replace all d prefixed with zero or multiple e to abc
+5. replace all alpha str prefixed with f (except single f) to abc
+
+1. find all ipv4 address and print related line number.
