@@ -1,6 +1,6 @@
 *.out
-*.txt
 *.pyc
+*.o
 .vscode/
 .idea/
 .vim/

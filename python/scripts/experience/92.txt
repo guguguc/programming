@@ -1,0 +1,12 @@
+头条实习面经
+
+
+1面. 并发模型，memory model，volatile of C++, volatile of Java, happens before, 代码实现阻塞队列。
+
+
+2面. memory area, stack/heap 生长方向，网络四层模型，TCP/UDP/ARP/HTTP/HTTPS，TCP状态流程图，TIME_WAIT，手写单例模型，LRU(链表/数组/哈希)，算法：数组内都是0和1，求0和1数量相同的最长区间。
+
+
+3面. 代码实现二叉树z字型层次遍历，聊项目，I/O 中 write 操作的过程(I/O stack)，内核什么时候回收内存，CFS任务调度，I/O调度，I/O限速怎么做，目录的实现，ls 命令如何实现的，目录结构，网络编程socket服务端的函数哪些是阻塞的，accept什么时候返回，backlog参数，Ceph，内核锁的类型和各自的特点，LSM tree，malloc和kmalloc的区别。
+
+

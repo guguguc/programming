@@ -1,0 +1,10 @@
+hello, word!
+grey gray grby
+a ab abb abbb
+d dee deee deeee
+af bf cf df gf hf 1f 2f
+
+128.1.23.12
+192.168.0.1
+102.145.67.89
+100.102.00.23
