@@ -1,7 +1,9 @@
 *.out
 *.pyc
-.vscode/
-.idea/
-.vim/
+*.obj
+*.exe
+**/.vscode/
+**/.idea/
+**/.vim/
 labs/
 build/
