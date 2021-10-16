@@ -5,6 +5,8 @@
 #include <chrono>
 #include <vector>
 
+#define N 10
+
 void func(int i)
 {
     std::cout << i << " thread id "
@@ -16,10 +18,14 @@ void func(int i)
 int main()
 {
   std::vector<std::thread> pool;
-  for (int i = 0; i < 10; ++i) {
+  for (int i = 0; i < N; ++i) {
     pool.push_back(std::thread(func, i));
   }
-  for (auto& p: pool)
-      p.join();
+  std::cout << "sleep";
+  std::this_thread::sleep_for(std::chrono::seconds(20));
+
+  // for (auto& p: pool)
+  //     p.join();
+
   return 0;
 }
