@@ -1,6 +1,27 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #include <cassert>
+
+void scref(const std::string &str)
+{
+  std::cout << "scref(const std::string&) " << str << "\n";
+}
+
+void scref(const std::string &&str)
+{
+  std::cout << "scref(const std::string&&) " << str << "\n";
+}
+
+void sref(std::string &str)
+{
+  std::cout << "sref(std::string&) " << str << "\n";
+}
+
+void sref(std::string &&str)
+{
+  std::cout << "sref(std::string&&) " << str << "\n";
+}
 
 int main() {
   // Declares a named var as a ref, that is,
@@ -49,11 +70,19 @@ int main() {
   // Ref collapsing
   typedef int&  lref;
   typedef int&& rref;
-  int n;
+  int n = 10;
   lref&  r1 = n;  // type of r1 is int&
   lref&& r2 = n;  // type of r2 is int&
   rref&  r3 = n;  // type of r3 is int&
   rref&& r4 = 1;  // type of r4 is int&&
+
+  const std::string s4("cref");
+  std::string s5("ref");
+  std::string &s5_ = s5;
+//  scref(s4);
+  scref("tmp str");
+  sref(std::move(s5));
+  std::cout << s5.size();
 
   return 0;
 }
