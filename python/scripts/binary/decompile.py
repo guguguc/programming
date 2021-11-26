@@ -1,4 +1,5 @@
 #!/bin/python3
+# https://stackoverflow.com/questions/11141387/given-a-python-pyc-file-is-there-a-tool-that-let-me-view-the-bytecode
 import sys
 import importlib
 import time
@@ -45,4 +46,6 @@ def disassemble(fn, log: Callable = print):
 
 
 if __name__ == '__main__':
+    import sys
+    sys.stdout = open('log.txt', 'w')
     disassemble("./config.cpython-39.pyc")
