@@ -39,6 +39,5 @@ int main()
         // dtor: A
     }
 
-
     return 0;
 }
