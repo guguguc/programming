@@ -4,38 +4,56 @@ using namespace std;
 
 class A {
 public:
-    // init data member by declaration
-    // a = i + 1, b = i + 2, c = i + 3
-    A(): a(0), b(0), c(0) {}
-    A(int i): a(++i), c(++i), b(++i) {}
-    A(char s): a(s), b(a), c(b) {}
-    virtual void disp() { cout << "this is A\n"; }
-    ~A();
+    A(): m_a(0) {}
+    explicit A(int a): m_a(a) {}
+    virtual void disp1() { cout << __FUNCTION__ << " Virtual: this is A\n"; }
+    void disp2() {cout << __FUNCTION__ << " This is A\n"; }
+    virtual ~A() {cout << "dtor: A\n"; };
 public:
-    int a;
-    int b;
-    int c;
+    int m_a;
 };
-
-A::~A()
-{
-    cout << "a:" << a << " " << "b:" << b << " " << "c:" << c << "\n";
-    cout << "adr-a:" << &a << "\n"
-         << "adr-b:" << &b << "\n"
-         << "adr-c:" << &c << "\n";
-}
 
 class A1 : public A {
 public:
-    A1() = default;
-    A1(int i) { a = b = c = i; }
-    void disp() { cout << "this is A1\n"; }
+    A1(): A(), arr(nullptr) {}
+    explicit A1(int a, int len) : A(a), arr(new int[len]) { cout << "new \n";}
+    virtual void disp1() { cout << __FUNCTION__ << " Virtual: This is A1\n"; }
+    void disp2() {cout << __FUNCTION__ << " This is A1\n"; }
+    ~A1() { cout << "dtor: A1\n"; if(arr) delete arr; }
+public:
+    int *arr;
 };
 
 int main()
 {
-    A1 a(10);
-    A *p = &a;
-    p->disp();
+    cout << "non-pointer\n";
+    {
+        // A1调用A的默认构造函数
+        A1 a0(1, 1);
+        A a1 = a0;
+        cout << a1.m_a << "\n";
+        a1.disp1();
+        a1.disp2();
+        // new
+        // dtor: A1
+        // 1
+        // Virtual: this is A
+        // This is A
+        // dtor: A   :a1 dtor
+        // dtor: A1  :a0 dtor
+        // dtor: A
+    }
+    /*
+    cout << "\n";
+
+    cout << "pointer\n";
+    {
+        A *a2 = new A1();
+        a2->disp1();
+        a2->disp2();
+        delete a2;
+    }
+    */
+
     return 0;
 }
