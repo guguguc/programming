@@ -4,10 +4,7 @@ import random
 import json
 import re
 
-def hello():
-    pass
-
-class FakeIdentityGen():
+class FakeIdentityGen:
     def __init__(self):
         self.name = self._gen_user_name()
         self.email = self._gen_user_email()
