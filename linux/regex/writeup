@@ -1,0 +1,7 @@
+1. sed -i 's/word/world/' test.txt
+2. sed -E -i 's/gr(a|b)y/grey/g' test.txt
+3. sed -E -i 's/ab+/abc/g' test.txt
+4. sed -E -i 's/de*/abc/g' test.txt
+5. sed -E -i 's/([a-z]|[A-Z])+f/abc/g' test.txt
+
+1. grep -n -E '([0-9]{1,3}.){3}[0-9]{1,3}'

@@ -7,7 +7,7 @@
 
 typedef unsigned char bool;
 typedef unsigned long ul;
-typedef struct list list;
+typedef struct list list_t;
 
 struct list
 {
@@ -17,26 +17,25 @@ struct list
 
 int is_prime(int num)
 {
-    bool flag = 0;
     for (int i = 2; i * i < num; ++i) {
         if (i != num && num % i == 0) {
-            flag = 1; break;
+            return 0;
         }
     }
-    return flag;
-} 
+    return 1;
+}
 
-list *make_node(ul n)
+list_t *make_node(ul n)
 {
-    list* node = (list*) malloc(sizeof(list));
+    list_t *node = (list_t*) malloc(sizeof(list_t));
     node->num = n;
     node->next = NULL;
     return node;
 }
 
-list *make_list(bool *aux, size_t size)
+list_t *make_list(bool *aux, size_t size)
 {
-    list *head, *p;
+    list_t *head, *p;
     head = p = make_node(0);
     size_t cnt = 0;
     for (size_t i = 0; i < size; ++i) {
@@ -51,7 +50,7 @@ list *make_list(bool *aux, size_t size)
     return head;
 }
 
-list *erat_sieve(ul n)
+list_t *erat_sieve(ul n)
 {
     if (n > N) return NULL;
     bool *aux = (bool*) malloc(n * sizeof(bool));
@@ -62,7 +61,7 @@ list *erat_sieve(ul n)
         for (ul j = i * i; j < n; j += i)
             aux[j] = 0;
     }
-    list *head = make_list(aux, n);
+    list_t *head = make_list(aux, n);
     free(aux);
     return head;
 }
@@ -70,8 +69,8 @@ list *erat_sieve(ul n)
 int main()
 {
     size_t n = 10000;
-    list *arr = erat_sieve(n);
-    for (list* p = arr->next; p != NULL; p = p->next) {
+    list_t *arr = erat_sieve(n);
+    for (list_t* p = arr->next; p != NULL; p = p->next) {
         printf("%ld ", p->num);
     }
     printf("count is %ld\n", arr->num);
