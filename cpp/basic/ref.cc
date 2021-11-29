@@ -79,7 +79,7 @@ int main() {
   const std::string s4("cref");
   std::string s5("ref");
   std::string &s5_ = s5;
-//  scref(s4);
+  scref(s4);
   scref("tmp str");
   sref(std::move(s5));
   std::cout << s5.size();
