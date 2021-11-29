@@ -1,5 +1,10 @@
 *.out
 *.pyc
+*.obj
+*.exe
+**/.vscode/
+**/.idea/
+**/.vim/
 *.o
 .vscode/
 .idea/
