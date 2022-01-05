@@ -311,7 +311,6 @@ struct list_head *read_prohdr(int fd, const Elf64_Ehdr *elfhdr)
 
 struct list_head *read_symtab(int fd, struct list_head *sechdr)
 {
-    fprintf(stdout, "Symbol table:\n");
     assert(fd > 0);
     assert(sechdr);
 

@@ -1,594 +1,178 @@
 [
     [
-        "https://www.freebuf.com/articles/network/204769.html",
-        500
-    ],
-    [
-        "http://bbs.feng.com/read-htm-tid-672262.html",
+        "https://qianfei11.github.io/2019/08/11/%E8%A7%A3%E5%86%B3gef-missing%E9%97%AE%E9%A2%98/",
         404
     ],
     [
-        "http://bbs.feng.com/read-htm-tid-2114166.html",
-        404
-    ],
-    [
-        "http://bbs.feng.com/read-htm-tid-1523875.html",
-        404
-    ],
-    [
-        "http://bbs.feng.com/forum.php?mod=viewthread&tid=5259660&extra=page%3D&page=1&mobile=no",
-        404
-    ],
-    [
-        "https://tom0li.github.io/%E5%A6%82%E4%BD%95%E8%B6%85%E8%BF%87%E5%A4%A7%E5%A4%9A%E6%95%B0%E4%BA%BA-%E8%BD%AC%E8%BD%BD/",
-        404
-    ],
-    [
-        "https://www.pornhub.com/view_video.php?viewkey=ph5e4c9788274a6",
-        404
-    ],
-    [
-        "http://blog.knownsec.com/",
-        403
-    ],
-    [
-        "https://0day.today/exploits/24379",
-        503
-    ],
-    [
-        "https://www.exploit-db.com/",
-        403
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/25650525",
-        400
-    ],
-    [
-        "https://klionsec.github.io/2017/03/24/mysql-log-write-webshell/",
-        404
-    ],
-    [
-        "https://tom0li.github.io/%E5%86%85%E7%BD%91%E5%A4%87%E5%BF%98%E5%BD%95/",
-        404
-    ],
-    [
-        "https://paper.seebug.org/218/",
-        403
-    ],
-    [
-        "https://www.uedbox.com/web-security/",
-        403
-    ],
-    [
-        "http://column.hongliangjie.com/",
-        406
-    ],
-    [
-        "https://blog.donot.me/",
+        "http://1ypt0.top/2019/02/16/%E6%97%A5%E5%BF%97%E9%9A%90%E5%8C%BF/",
         -1
     ],
     [
-        "https://github.com/vduddu/PentestResources",
-        404
+        "https://www.lz1y.cn/",
+        -1
     ],
     [
-        "http://www.siqiliu.com/note.html",
-        404
+        "https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov3-tiny-prn.cfg",
+        -1
     ],
     [
-        "http://topspeedsnail.com/",
-        404
-    ],
-    [
-        "https://paper.seebug.org/282/",
-        403
-    ],
-    [
-        "https://qianfei11.github.io/2019/08/11/%E8%A7%A3%E5%86%B3gef-missing%E9%97%AE%E9%A2%98/",
-        404
+        "https://blog.berd.moe/?from=idc.moe",
+        410
     ],
     [
         "https://www.tr0y.wang/2018/06/11/HideWebShell/index.html",
         404
     ],
     [
-        "https://paper.seebug.org/",
-        403
-    ],
-    [
-        "http://www.polaris-lab.com/",
-        -1
-    ],
-    [
-        "http://1ypt0.top/2019/02/16/%E6%97%A5%E5%BF%97%E9%9A%90%E5%8C%BF/",
-        503
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/47057266",
-        400
-    ],
-    [
-        "https://coolshell.cn/",
-        -1
-    ],
-    [
-        "https://blog.gzsec.org/",
-        -1
-    ],
-    [
-        "https://bbs.themex.net/forumdisplay.php?f=56",
-        502
-    ],
-    [
-        "http://mlexplained.com/about-this-blog/",
-        406
-    ],
-    [
         "http://www.cdivtc.cn/",
         -1
     ],
     [
-        "https://www.amazon.com/gp/aw/d/1593271441/ref=dp_ob_neva_mobile",
-        503
-    ],
-    [
-        "http://www.hejizhan.com/bbs/",
-        503
-    ],
-    [
-        "https://ftqq.com/",
-        -1
-    ],
-    [
-        "https://subscribe.packtpub.com/",
-        403
-    ],
-    [
-        "https://sakura.aoaomoe.club/user/invite",
-        -1
-    ],
-    [
-        "https://sci-hub.tw/",
-        -1
-    ],
-    [
-        "http://home.ustc.edu.cn/~xx352229/recommend.html",
+        "http://mlexplained.com/about-this-blog/",
         404
     ],
     [
-        "https://java.quanke.name/7.6%20%E5%86%85%E9%83%A8%E7%B1%BB.html",
+        "https://github.com/optuna/optuna/blob/master/examples/pytorch_simple.py",
+        -1
+    ],
+    [
+        "https://github.com/microsoft/nni/blob/master/README_zh_CN.md",
+        -1
+    ],
+    [
+        "https://dwane.blog/",
+        -1
+    ],
+    [
+        "https://github.com/neomake/neomake",
+        -1
+    ],
+    [
+        "https://www.hackingarticles.in/",
+        -1
+    ],
+    [
+        "http://www.ruanyifeng.com/blog/2019/03/agile-development.html",
+        -1
+    ],
+    [
+        "https://commandcenter.blogspot.com/",
+        -1
+    ],
+    [
+        "https://www.kitploit.com/?m=1",
+        -1
+    ],
+    [
+        "https://samcurry.net/",
+        -1
+    ],
+    [
+        "https://samcurry.net/hacking-apple/",
+        -1
+    ],
+    [
+        "https://0kee.360.cn/blog/",
+        -1
+    ],
+    [
+        "https://rrittwikc.github.io/",
         404
     ],
     [
-        "https://www.dailymotion.com/video/x54bt0b",
-        404
-    ],
-    [
-        "https://www.panc.cc/s/%E6%B5%81%E7%95%85%E7%9A%84python/td_0",
-        404
-    ],
-    [
-        "https://www.secpulse.com/archives/46832.html",
-        404
-    ],
-    [
-        "https://bbs.pediy.com/thread-262862.htm",
+        "https://www.inoreader.com/feed/https%3A%2F%2Fwww.reddit.com%2Fr%2Funixporn%2F.rss",
         -1
     ],
     [
-        "https://www.jianshu.com/p/cf14660d8af2",
+        "https://zerosum0x0.blogspot.com/?m=1",
+        -1
+    ],
+    [
+        "https://blog.lilydjwg.me/",
+        -1
+    ],
+    [
+        "https://farseerfc.me/",
+        -1
+    ],
+    [
+        "https://medium.com/bugbountywriteup",
+        -1
+    ],
+    [
+        "https://www.hexacorn.com/blog/",
         403
     ],
     [
-        "https://getmyte.com/",
-        502
-    ],
-    [
-        "https://www.zhihu.com/question/41059945?answer_deleted_redirect=true",
-        400
-    ],
-    [
-        "http://0x3.biz/",
+        "https://www.ms509.com/",
         -1
     ],
     [
-        "https://bbs.ichunqiu.com/thread-41965-1-1.html?from=sec",
-        403
-    ],
-    [
-        "https://cloudcone.com/",
-        403
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/64052743",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/63328014",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/68221621",
-        400
-    ],
-    [
-        "https://pan.baidu.com/s/1dLvPMDBZIeXbHWa9JlmS2Q#list/path=%2F",
+        "https://eugeneyan.com/",
         -1
     ],
     [
-        "https://zhuanlan.zhihu.com/p/73565142",
-        400
-    ],
-    [
-        "https://xhamsterlive.com/couples",
-        406
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/96819625",
-        400
-    ],
-    [
-        "https://www.vectorizer.io/upload",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/49286109",
-        400
-    ],
-    [
-        "https://devblogs.microsoft.com/",
-        403
-    ],
-    [
-        "https://www.liaoxuefeng.com/wiki/896043488029600",
-        503
-    ],
-    [
-        "https://www.reddit.com/r/Python/",
-        502
-    ],
-    [
-        "https://www.znzit.com/",
+        "http://who-t.blogspot.com/",
         -1
     ],
     [
-        "https://raidforums.com/",
-        406
-    ],
-    [
-        "https://www.liaoxuefeng.com/wiki/1022910821149312",
-        503
-    ],
-    [
-        "view-source:chrome-extension://jdbnofccmhefkmjbkkdkfiicjkgofkdh/html/newtab.html",
+        "https://medium.com/@evnbr",
         -1
     ],
     [
-        "https://www.exploit-db.com/exploits/44005",
-        403
-    ],
-    [
-        "https://github.com/ossu/computer-science/blob/dev/README.md#core-programming",
-        404
-    ],
-    [
-        "https://www.seebug.org/vuldb/ssvid-97126",
-        403
-    ],
-    [
-        "https://www.exploit-db.com/exploits/38633",
-        403
-    ],
-    [
-        "https://cobbr.io/Covenant.html",
+        "https://rybczak.net/",
         -1
     ],
     [
-        "https://www.mingjinglu.com/coding/425.html",
-        404
-    ],
-    [
-        "https://www.zhihu.com/question/29372574",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/21095181",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/70264137",
-        400
-    ],
-    [
-        "https://transfer.sh/",
+        "https://taian.su/",
         -1
     ],
     [
-        "https://xinqiu.me/2016/10/15/MIT-6.828-1/",
-        404
-    ],
-    [
-        "view-source:http://csapp.cs.cmu.edu/3e/labs.html",
+        "https://googleprojectzero.blogspot.com/?m=1",
         -1
     ],
     [
-        "https://wiki.scuctf.com/doku.php?id=%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8",
+        "https://blog.flanker017.me/",
         -1
     ],
     [
-        "https://zhuanlan.zhihu.com/p/58732973",
-        400
-    ],
-    [
-        "https://www.4hou.com/reverse/17922.html",
-        404
-    ],
-    [
-        "https://bbs.pediy.com/thread-247217.htm",
+        "https://blog.flanker017.me/zz-%e9%9d%a2%e8%af%95%e4%b8%80%e5%b9%b4%e5%89%8d%e7%9a%84%e8%87%aa%e5%b7%b1/#comment-23684",
         -1
     ],
     [
-        "https://morosedog.gitlab.io/j.j.blogs/x64dbg-20190720-x64dbg-0/",
-        503
-    ],
-    [
-        "https://www.matplotlib.org.cn/tutorials/introductory/usage.html#what-is-a-backend",
+        "https://program-think.blogspot.com/?m=1",
         -1
     ],
     [
-        "https://morosedog.gitlab.io/j.j.blogs/categories/x64dbg/",
-        503
-    ],
-    [
-        "https://www.jianshu.com/p/6aedbdb72fdc",
-        403
-    ],
-    [
-        "https://www.jianshu.com/p/8dd95cd3d6d1",
-        403
-    ],
-    [
-        "https://yq.aliyun.com/articles/74729?spm=a2c4e.11153940.0.0.293f2ae9Ly2UGp",
-        404
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/27931879",
-        400
-    ],
-    [
-        "https://sci-hub.org.cn/",
-        403
-    ],
-    [
-        "file:///C:/Users/whato/Downloads/%E5%9F%BA%E4%BA%8E%E6%94%B9%E8%BF%9BYOLOv3%E7%9A%84%E5%BF%AB%E9%80%9F%E8%BD%A6%E8%BE%86%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95.pdf",
+        "https://wsgzao.github.io/post/singapore/",
         -1
     ],
     [
-        "https://zhuanlan.zhihu.com/p/23508637",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/21930884",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/305638940",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/64693337",
-        400
-    ],
-    [
-        "http://www.holmesconan.me/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2018/07/14/pascal-voc-dataset-download-convert.html",
-        404
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/70306015",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/57782435",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/89200261",
-        400
-    ],
-    [
-        "https://coolshell.cn/articles/5426.html",
+        "https://dmitryfrank.com/about#",
         -1
     ],
     [
-        "https://zhuanlan.zhihu.com/p/37609917",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/44864396/answer/540983179",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/22971865",
-        400
-    ],
-    [
-        "http://www.jeepxie.net/article/65518.html",
-        503
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/80852438",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/89205060",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/68099299",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/108210432",
-        400
-    ],
-    [
-        "https://www.jianshu.com/p/a5245ab978b3",
-        403
-    ],
-    [
-        "http://www.roading.org/develop/cpp/%E3%80%8A%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2c%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E3%80%8B%E7%AC%94%E8%AE%B0%E6%B1%87%E6%80%BB.html",
-        404
-    ],
-    [
-        "https://www.jianshu.com/p/7d0f9d987dc9",
-        403
-    ],
-    [
-        "https://sci-hub.tw/https://doi.org/10.1016/0376-5075(78)90009-0",
+        "https://bucl.es/",
         -1
     ],
     [
-        "https://www.jianshu.com/p/c1015f5ffa74",
-        403
-    ],
-    [
-        "https://www.jianshu.com/p/2ec66dc467f7",
-        403
-    ],
-    [
-        "https://www.numpy.org.cn/user/basics/broadcasting.html#%E4%B8%80%E8%88%AC%E5%B9%BF%E6%92%AD%E8%A7%84%E5%88%99",
+        "https://greut.medium.com/minimal-python-deployment-on-docker-with-uwsgi-bc5aa89b3d35",
         -1
     ],
     [
-        "https://www.jianshu.com/nb/18470815",
-        403
-    ],
-    [
-        "https://www.zhihu.com/question/20511233",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/20465477",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/48762352?from=profile_question_card",
-        400
-    ],
-    [
-        "https://www.jianshu.com/p/06f957b9ed7c",
-        403
-    ],
-    [
-        "https://www.jianshu.com/p/afe0ffa7839d",
-        403
-    ],
-    [
-        "https://bbs.pediy.com/thread-228669.htm",
+        "http://www.devttys0.com/electronics/",
         -1
     ],
     [
-        "https://zhuanlan.zhihu.com/p/54627024",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/56666380",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/103271015",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/30007037",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/34873227",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/86304211",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/36279445",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/30315894",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/59161370",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/93895403",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/22298352?rf=21686447",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/54677157",
-        400
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/76787950",
-        400
-    ],
-    [
-        "chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fpdos.csail.mit.edu%2F6.828%2F2020%2Fxv6%2Fbook-riscv-rev1.pdf",
+        "https://nova.moe/posts/",
         -1
     ],
     [
-        "chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fedwiv.com%2Fwp-content%2Fuploads%2F2019%2F02%2FACM-Book.pdf",
+        "https://kkdev.org//#blog",
         -1
     ],
     [
-        "chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fwww.amd.com%2Fsystem%2Ffiles%2FTechDocs%2F24593.pdf",
-        -1
-    ],
-    [
-        "chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fsoftware.intel.com%2Fcontent%2Fdam%2Fdevelop%2Fpublic%2Fus%2Fen%2Fdocuments%2F325384-sdm-vol-3abcd.pdf",
-        -1
-    ],
-    [
-        "https://www.zhihu.com/question/25033592",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/19714540",
-        400
-    ],
-    [
-        "https://www.zhihu.com/question/37787004",
-        400
-    ],
-    [
-        "https://m.svipmh.com/?from=fby",
-        403
-    ],
-    [
-        "chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fnetdevconf.info%2F1.1%2Fproceedings%2Fslides%2Frosen-namespaces-cgroups-lxc.pdf",
-        -1
-    ],
-    [
-        "https://wbglil.gitbooks.io/cobalt-strike/mu-lu.html",
-        404
-    ],
-    [
-        "https://zhuanlan.zhihu.com/p/197854613",
-        400
-    ],
-    [
-        "https://bbs.pediy.com/thread-221734.htm",
-        -1
-    ],
-    [
-        "http://wangkaiwei.org/file/2017/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E7%89%A9%E4%BD%93%E8%AF%86%E5%88%AB%E7%AE%97%E6%B3%95.pdf",
+        "https://blog.wildcat.io/#blog",
         -1
     ]
 ]

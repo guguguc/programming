@@ -9,6 +9,13 @@ const n = 100
 
 var fibN [n]float64
 
+type FuncMetric struct {
+	file_name   string
+	func_sig    string
+	line_number int
+	line_cnt    int
+}
+
 func spinner(delay time.Duration) {
 	s := `-\|/`
 	for i := 0; ; i = (i + 1) % 4 {
@@ -35,14 +42,28 @@ func fib2(x int) int {
 	if x < 2 {
 		return x
 	}
-	return fib2(x-1) + fib2(x-2)
+	var l = fib2(x - 1)
+	var r = fib2(x - 2)
+	return l + r
+}
+
+func adder() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
 }
 
 func main() {
-	go spinner(100 * time.Millisecond)
+	// go spinner(100 * time.Millisecond)
 	// for i := 0; i < n - 1; i++ {
 	// 	ans := fib(i)
 	// 	fmt.Printf("\rFibonacci(%d) = %f\n", i, ans)
 	// }
-	fmt.Printf("\rFib %d is %d", 60, fib2(60))
+	// fmt.Printf("\rFib %d is %d", 60, fib2(60))
+	fun := adder()
+	for i := 0; i < 10; i++ {
+		fmt.Println(fun(i))
+	}
 }

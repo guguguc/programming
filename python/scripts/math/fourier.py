@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 
-N = 200
-PI = np.pi
-F = lambda x: x
+N = 20
+PI = 3.14159274
+F = lambda x: np.exp(x)
 
 def timer(func):
     from time import time

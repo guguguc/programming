@@ -1,15 +1,23 @@
 #!/usr/bin/python3
 import requests
 from html.parser import HTMLParser
+from pprint import pprint
 
 RED = '\033[31;1;1m'
 GREEN = '\033[32;1;1m'
 RESET = '\033[0m'
 
+headers = {
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
+}
+
 
 class BookMarkParser(HTMLParser):
     def __init__(self):
         """parse chromium exported bookmark
+        <title>Bookmarks</title>
+        <h1>Bookmarks</h1>
+        <DL><p>
         <h3>category 1</h3>
             <dl>
             <a href="url1"></a>
@@ -26,6 +34,8 @@ class BookMarkParser(HTMLParser):
                 </dl>
             </dl>
         <h3>category 2</h3>
+        ...
+        </DL><p>
         """
         super(BookMarkParser, self).__init__()
         self.info = []
@@ -91,7 +101,7 @@ def w2file(filename, urls: list):
 
 
 def check_one(url):
-    rep = requests.get(url, timeout=10)
+    rep = requests.get(url, timeout=10, headers=headers)
     return rep.status_code
 
 
@@ -117,7 +127,7 @@ def check_all(urls):
 if __name__ == '__main__':
     import time
     import json
-    data = '/home/gugugu/Documents/bookmarks.html'
+    data = './bookmarks.html'
     parser = BookMarkParser()
     parser.feed(open(data, encoding='utf8').read())
     parser.post_process()
@@ -127,10 +137,12 @@ if __name__ == '__main__':
         urls.extend(item['url'])
     print('[*] start to test %s urls' % len(urls))
     w2file("url.txt", urls)
+    blog = parser.get('Blog')
+    errs = check_all(blog['url'])
     # t1 = time.time()
     # err_urls = check_all(urls)
     # t2 = time.time()
-    # print(f'[*] err url length {len(err_urls)}', \
+    # print(f'[*] err url length {len(err_urls)}',
     #       f'check {len(urls)} urls cost {(t2-t1):.2f}s')
-    # json.dump(err_urls, open('err_urls.json', 'w+'),
-    #           indent=4)
+    json.dump(errs, open('err_urls.json', 'w+'),
+              indent=4)
