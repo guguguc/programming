@@ -9,11 +9,11 @@ import time
 import struct
 
 addr = ("", 8888)
-s = socket.create_server(addr)
+server = socket.create_server(addr)
 
 print(f'[*] server is listening on {addr[1]}')
 while True:
-    client, client_addr = s.accept()
+    client, client_addr = server.accept()
     print(client_addr)
     rev_msg = str(client.recv(1024), encoding='utf8')
     print(rev_msg)

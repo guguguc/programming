@@ -5,7 +5,6 @@
 @Description: 
 '''
 import socket
-import time
 
 buffer_size = 1024
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,6 +15,3 @@ for _ in range(3):
     response_msg = str(client.recv(buffer_size), encoding='utf8')
     print('recived msg:', response_msg)
 client.close()
-
-
-
