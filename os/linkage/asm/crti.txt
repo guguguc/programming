@@ -1,0 +1,54 @@
+
+/usr/lib/crti.o:     file format elf64-x86-64
+
+
+Disassembly of section .note.gnu.property:
+
+0000000000000000 <.note.gnu.property>:
+   0:	04 00                	add    al,0x0
+   2:	00 00                	add    BYTE PTR [rax],al
+   4:	10 00                	adc    BYTE PTR [rax],al
+   6:	00 00                	add    BYTE PTR [rax],al
+   8:	05 00 00 00 47       	add    eax,0x47000000
+   d:	4e 55                	rex.WRX push rbp
+   f:	00 02                	add    BYTE PTR [rdx],al
+  11:	00 00                	add    BYTE PTR [rax],al
+  13:	c0 04 00 00          	rol    BYTE PTR [rax+rax*1],0x0
+  17:	00 03                	add    BYTE PTR [rbx],al
+  19:	00 00                	add    BYTE PTR [rax],al
+  1b:	00 00                	add    BYTE PTR [rax],al
+  1d:	00 00                	add    BYTE PTR [rax],al
+  1f:	00 04 00             	add    BYTE PTR [rax+rax*1],al
+  22:	00 00                	add    BYTE PTR [rax],al
+  24:	20 00                	and    BYTE PTR [rax],al
+  26:	00 00                	add    BYTE PTR [rax],al
+  28:	05 00 00 00 47       	add    eax,0x47000000
+  2d:	4e 55                	rex.WRX push rbp
+  2f:	00 02                	add    BYTE PTR [rdx],al
+  31:	00 01                	add    BYTE PTR [rcx],al
+  33:	c0 04 00 00          	rol    BYTE PTR [rax+rax*1],0x0
+	...
+  3f:	00 01                	add    BYTE PTR [rcx],al
+  41:	00 01                	add    BYTE PTR [rcx],al
+  43:	c0 04 00 00          	rol    BYTE PTR [rax+rax*1],0x0
+  47:	00 01                	add    BYTE PTR [rcx],al
+  49:	00 00                	add    BYTE PTR [rax],al
+  4b:	00 00                	add    BYTE PTR [rax],al
+  4d:	00 00                	add    BYTE PTR [rax],al
+	...
+
+Disassembly of section .init:
+
+0000000000000000 <_init>:
+   0:	f3 0f 1e fa          	endbr64 
+   4:	48 83 ec 08          	sub    rsp,0x8
+   8:	48 8b 05 00 00 00 00 	mov    rax,QWORD PTR [rip+0x0]        # f <_init+0xf>
+   f:	48 85 c0             	test   rax,rax
+  12:	74 02                	je     16 <_init+0x16>
+  14:	ff d0                	call   rax
+
+Disassembly of section .fini:
+
+0000000000000000 <_fini>:
+   0:	f3 0f 1e fa          	endbr64 
+   4:	48 83 ec 08          	sub    rsp,0x8
