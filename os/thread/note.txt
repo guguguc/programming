@@ -1,0 +1,2 @@
+1. atomic instruction: hold memory resource excusiveliy 
+2. futex and pthread_mutex_lock
