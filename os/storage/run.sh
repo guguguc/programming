@@ -17,7 +17,6 @@ for (( i = 0; i < $cnt; ++i )); do ./write.out $2; echo "=============="; done
 # ./write.out & \
 # ./write.out & \
 # ./write.out & \
-
 echo "content of file ${file}:"
 cat ${file}
 echo -e "\nstat of file ${file}"
