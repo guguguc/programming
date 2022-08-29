@@ -6,7 +6,7 @@
 
 #ifdef DEBUG
 #include <stdio.h>
-#define LOG_DEBUG(msg, x) printf("[debug] %s: %lf\n", msg, x);
+#define LOG_DEBUG(msg, x) printf("[debug] __FUNCTION__: %s %lf\n", msg, x);
 #else
 #define LOG_DEBUG(msg, x) (void)(x);
 #endif
