@@ -1,0 +1,2 @@
+void spinlock();
+void spinunlock();
