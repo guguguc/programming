@@ -97,4 +97,5 @@ function str_transform_clean() {
 }
 
 # str_transform 'ATCG' # TAGC
-str_transform_clean 'ATCG' # TAGC
+# str_transform_clean 'ATCG' # TAGC
+pad_str_clean hello
