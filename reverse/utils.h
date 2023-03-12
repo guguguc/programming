@@ -8,6 +8,7 @@
 #include <TlHelp32.h>
 #include <Psapi.h>
 #include <memoryapi.h>
+#include <cassert>
 
 #define LOG(msg) std::cout << msg << std::endl;
 

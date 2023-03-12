@@ -1,5 +1,6 @@
 #pragma once
-#include "detours.h"
+#pragma comment(lib,"../detours/detours-x64.lib")
+#include "detours/detours.h"
 
 #include <format>
 #include <cstdio>

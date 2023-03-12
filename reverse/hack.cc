@@ -1,9 +1,9 @@
 #include "utils.h"
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -12,7 +12,6 @@ const uint8_t jmp = 0xE9;
 const uint8_t nop = 0x90;
 const unsigned long long offset = 0xBBF9;
 const unsigned long long noCdOffset = 0x46DE893;
-
 
 template <typename T>
 void extend_vec(vector<T> &destVec, const vector<T> &vec)
@@ -24,7 +23,7 @@ void extend_vec(vector<T> &destVec, const vector<T> &vec)
 }
 
 void print(const std::vector<uint8_t> &vec)
-{   
+{
     for (const auto &byte : vec)
     {
         printf("%02hhx ", byte);
@@ -46,11 +45,10 @@ bool write2file(std::string filename, const std::vector<uint8_t> &bytes)
         buffer[i++] = byte;
     }
     file.write(buffer, bytes.size());
-    delete []buffer;
+    delete[] buffer;
     file.close();
     return true;
 }
-
 
 std::vector<uint8_t> calcJmpRaletiveAddr(LPVOID newAbsAddr, LPVOID patchAbsAddr)
 {
@@ -63,18 +61,41 @@ std::vector<uint8_t> calcJmpRaletiveAddr(LPVOID newAbsAddr, LPVOID patchAbsAddr)
     return ret;
 }
 
-
 std::vector<uint8_t> readMemory(HANDLE hProcess, LPVOID addr, size_t nBytes)
 {
     std::vector<uint8_t> vec;
     uint8_t *buffer = new uint8_t[0x20000000]{0};
     size_t bytesOfRead;
-    ReadProcessMemory(hProcess, addr, buffer, nBytes, &bytesOfRead);
+    auto ret = ReadProcessMemory(hProcess, addr, buffer, nBytes, &bytesOfRead);
+    assert(ret);
     for (int i = 0; i < bytesOfRead; ++i)
     {
         vec.push_back(buffer[i]);
     }
-    delete []buffer;
+    delete[] buffer;
+    return vec;
+}
+
+std::vector<uint8_t> readMemoryUntil(HANDLE hProcess, LPVOID addr, uint8_t byte)
+{
+    std::vector<uint8_t> vec;
+    uint8_t buffer;
+    size_t bytesOfRead;
+    for (int i = 0;; ++i)
+    {
+        auto ret = ReadProcessMemory(hProcess, (uint8_t *)addr + i, &buffer, 1, &bytesOfRead);
+        if (!ret)
+        {
+            LOG("failed to read memory " << (LPVOID)((uint8_t *)addr + i));
+            LOG("error code: " << GetLastError());
+            return {};
+        }
+        if (buffer == byte)
+        {
+            break;
+        }
+        vec.push_back(buffer);
+    }
     return vec;
 }
 
@@ -138,13 +159,20 @@ bool injectCode(HANDLE hProcess, LPVOID patchAddr)
         return false;
     }
     std::vector<uint8_t> shellCode{
-        0x0F, 0x57, 0xC0,
-        0x0F, 0x28, 0xF0,
-        0x48, 0x8B, 0x58, 0x08,
+        0x0F,
+        0x57,
+        0xC0,
+        0x0F,
+        0x28,
+        0xF0,
+        0x48,
+        0x8B,
+        0x58,
+        0x08,
         jmp,
     };
     oprand = calcJmpRaletiveAddr(LPVOID((unsigned long long)(patchAddr) + 7),
-                        LPVOID((unsigned long long)newMemAbsAddr + 10));
+                                 LPVOID((unsigned long long)newMemAbsAddr + 10));
     reverse(oprand.begin(), oprand.end());
     extend_vec(shellCode, oprand);
     LOG("shellcode:")
@@ -156,62 +184,64 @@ bool injectCode(HANDLE hProcess, LPVOID patchAddr)
     return true;
 }
 
-int main()
+void dump_string()
 {
-    // bool ret = false;
-    // auto pid = getProcessPid("YuanShen.exe");
-    // if (!pid)
-    // {
-    //     LOG("failed to get pid!");
-    //     return 1;
-    // }
-    // LOG("pid: " << pid);
-    // HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
-    /*
-    std::string dllPath("C:\\Users\\whato\\source\\repos\\hack\\x64\\Debug\\hack.dll");
-    if (!getModuleBase(pid, "hack.dll"))
-    {
-        ret = injectDll(hProc, dllPath);
-        if (!ret)
-        {
-            LOG("failed to inject dll!");
-            CloseHandle(hProc);
-            return 1;
-        }
-    }
-    auto procBase = getModuleBase(pid, "UserAssembly.dll");
-    if (!procBase)
+    auto pid = 8040;
+    HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
+    if (!hProc)
     {
         LOG("failed to find module base!");
-        CloseHandle(hProc);
-        return 1;
+        return;
     }
-    LPVOID patchNoCdAddr = (LPVOID)((unsigned long long)procBase + noCdOffset);
-    LOG("find patch NoCd addr:" << patchNoCdAddr);
-    injectCode(hProc, patchNoCdAddr);
-    */
-
-    /*
-    auto targetModule = getProcessModule(pid, "UnityPlayer.dll");
-    if (!targetModule.moduleBase)
+    LPVOID addr = (LPVOID)0x0000017488D4BB60;
+    auto bytesRead = readMemoryUntil(hProc, addr, 0);
+    LOG("read " << bytesRead.size() << " bytes");
+    CloseHandle(hProc);
     {
-        LOG("failed to get module!");
-        return 1;
+        std::string content;
+        std::ofstream f("dump.js", std::ios::binary);
+        if (!f.is_open())
+        {
+            LOG("failed to open file");
+            return;
+        }
+        for_each(bytesRead.begin(), bytesRead.end(), [&](const uint8_t ch)
+                 { content += (char)ch; });
+        f << content;
     }
-    auto bytes = readMemory(hProc, targetModule.moduleBase, targetModule.moduleSize);
-    write2file("UserAssembly-cheat.bin", bytes);
-    */
+}
+
+int inject(const string exePath, const string dllPath)
+{
+
     HANDLE hProc, hThread;
-    bool ret = createProcess(&hProc, &hThread, "D:\\MHY\\Genshin Impact Game\\YuanShen.exe");
+    std::string filename;
+    bool ret = createProcess(&hProc, &hThread, exePath.c_str());
     if (!ret)
     {
         LOG("failed to create process!");
         return 1;
     }
-    injectDll(hProc, "C:\\Users\\whato\\source\\repos\\hack\\x64\\Debug\\hack.dll");
-    std::cout << "succeed to inject dll!\n";
-    system("pause");
+    ret = injectDll(hProc, dllPath);
+    if (ret)
+    {
+        std::cout << "succeed to inject dll!\n";
+    }
+    else
+    {
+        std::cout << "failed to inject dll\n";
+        goto cleanup;
+    }
     ResumeThread(hThread);
+cleanup:
     CloseHandle(hProc);
+    return 0;
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance,
+                    PSTR lpCmdLine, int nCmdShow)
+{
+    inject("D:\\Typora\\Typora.exe",
+           "E:\\programming\\reverse\\typora\\hackTypora.dll");
     return 0;
 }
