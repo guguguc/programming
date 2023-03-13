@@ -1,7 +1,9 @@
 *.out
 *.pyc
 *.obj
+*.o
 *.exe
+*.txt
 *.exp
 *.pdb
 **/.vscode/
